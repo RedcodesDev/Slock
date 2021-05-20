@@ -1,5 +1,6 @@
 package dev.redcodes.slock.serverlock.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -8,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import dev.redcodes.slock.Slock;
+import dev.redcodes.slock.data.MessageManager;
 
 public class PlayerInventoryListener implements Listener {
 
@@ -22,6 +24,13 @@ public class PlayerInventoryListener implements Listener {
 				case LIME_WOOL:
 					
 					Slock.setLocked(true);
+					
+					for (Player plr : Bukkit.getOnlinePlayers()) {
+						if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
+							plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
+						}
+					}
+					
 					e.getCurrentItem().addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
 					e.getClickedInventory().getItem(14).removeEnchantment(Enchantment.KNOCKBACK);
 					p.playSound(p.getLocation(), Sound.ENTITY_DROWNED_SHOOT, 10, 0);
