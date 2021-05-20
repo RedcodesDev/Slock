@@ -1,0 +1,10 @@
+name: Slock
+description: A advanced Server locking Plugin.
+website: redcodes.dev
+author: Redi
+version: .1.1
+main: dev.redcodes.slock.Slock
+api-version: 1.13
+commands:
+   slock:
+        description: locks/unlocks the Server!
