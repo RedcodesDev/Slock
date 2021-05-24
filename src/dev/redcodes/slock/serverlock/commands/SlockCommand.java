@@ -19,44 +19,50 @@ public class SlockCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
-					if(!Slock.isLocked()) {
-					Slock.setLocked(true);
+			if (p.hasPermission("slock.slock") || p.hasPermission("slock.*")) {
 
-					for (Player plr : Bukkit.getOnlinePlayers()) {
-						if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
-							plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
+				if (args.length == 1) {
+					if (args[0].equalsIgnoreCase("on")) {
+						if (!Slock.isLocked()) {
+							Slock.setLocked(true);
+
+							for (Player plr : Bukkit.getOnlinePlayers()) {
+								if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
+									plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
+								}
+							}
+
+							p.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
+							p.playSound(p.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 10, 0);
+
+						} else {
+							p.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
+							p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
 						}
-					}
 
-					p.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
-					p.playSound(p.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 10, 0);
-					
+					} else if (args[0].equalsIgnoreCase("off")) {
+
+						if (Slock.isLocked()) {
+							Slock.setLocked(false);
+
+							p.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
+							p.playSound(p.getLocation(), Sound.BLOCK_IRON_DOOR_OPEN, 10, 0);
+
+						} else {
+							p.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
+							p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
+						}
 					} else {
-						p.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
-						p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
-					}
-
-				} else if (args[0].equalsIgnoreCase("off")) {
-
-					if (Slock.isLocked()) {
-						Slock.setLocked(false);
-
-						p.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
-						p.playSound(p.getLocation(), Sound.BLOCK_IRON_DOOR_OPEN, 10, 0);
-
-					} else {
-						p.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
+						p.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
 						p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
 					}
 				} else {
-					p.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-					p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
+					SLockInventory inv = new SLockInventory(p);
+					inv.open();
 				}
 			} else {
-				SLockInventory inv = new SLockInventory(p);
-				inv.open();
+				p.sendMessage(MessageManager.getMessage("Messages.Errors.NoPermission"));
+				p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
 			}
 		}
 
