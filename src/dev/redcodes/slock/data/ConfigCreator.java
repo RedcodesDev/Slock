@@ -21,6 +21,7 @@ public class ConfigCreator {
 		msgConfig.addDefault("Messages.Bypass", "&cThe Server is currently locked. &aYou bypassed the lock.");
 		msgConfig.addDefault("Messages.Errors.NoPermission", "&4You don't have Permission to run this command.");
 		msgConfig.addDefault("Messages.Errors.FalseArguments", "&bDid you mean &n/slock [on/off]&r&b?");
+		msgConfig.addDefault("Messages.Errors.InvalidSender", "&4You can not execute a Command from this Block/Entity/Console.");
 		msgConfig.addDefault("Messages.Errors.SlockAlreadyOn", "&4The Server is already locked.");
 		msgConfig.addDefault("Messages.Errors.SlockAlreadyOff","&4The Server is already unlocked.");
 		msgConfig.options().copyDefaults(true);

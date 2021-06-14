@@ -34,17 +34,22 @@ public class Slock extends JavaPlugin {
 		}
 		
 		//Version checking
+		//TODO: Rewrite Version checking
 
-		String version = Bukkit.getVersion().substring(Bukkit.getVersion().lastIndexOf(":") + 1).replace(")", "")
-				.trim();
-		String majorVersion = version.substring(0, version.lastIndexOf(".")).trim();
-		int majorVersionNum = Integer.valueOf(majorVersion.replace("1.", ""));
-		
-		if(majorVersionNum < 13) {
-			Bukkit.getConsoleSender().sendMessage(prefix + "§cSlock was disabled because the Minecraft Version \"" + version + "\" is not supported.");
-			this.setEnabled(false);
-			return;
-		}
+//		String version = Bukkit.getVersion().substring(Bukkit.getVersion().lastIndexOf(":") + 1).replace(")", "")
+//				.trim();
+//		String majorVersion = version.substring(0, version.lastIndexOf(".")).trim();
+//		int majorVersionNum = Integer.valueOf(majorVersion.replace("1.", ""));
+//		
+//		System.out.println(version);
+//		System.out.println(majorVersion);
+//		System.out.println(majorVersionNum);
+//		
+//		if(majorVersionNum < 13) {
+//			Bukkit.getConsoleSender().sendMessage(prefix + "§cSlock was disabled because the Minecraft Version \"" + version + "\" is not supported.");
+//			this.setEnabled(false);
+//			return;
+//		}
 
 		getCommand("slock").setExecutor(new SlockCommand());
 		
