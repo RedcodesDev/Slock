@@ -3,7 +3,7 @@ description: The simplest Minecraft server locking system.
 website: www.redcodes.dev
 prefix: SLock
 author: Redi
-version: 1.2
+version: 1.3
 main: dev.redcodes.slock.Slock
 api-version: 1.13
 commands:

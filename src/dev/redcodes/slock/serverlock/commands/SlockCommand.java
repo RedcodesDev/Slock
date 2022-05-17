@@ -69,8 +69,9 @@ public class SlockCommand implements CommandExecutor {
 				p.sendMessage(MessageManager.getMessage("Messages.Errors.NoPermission"));
 				p.playSound(p.getLocation(), Sound.ENTITY_POLAR_BEAR_HURT, 10, 0);
 			}
-		} else if (sender instanceof ConsoleCommandSender) {
-			ConsoleCommandSender obj = (ConsoleCommandSender) sender;
+		} else if (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender
+				|| sender instanceof BlockCommandSender || sender instanceof CommandMinecart
+				|| sender instanceof ProxiedCommandSender) {
 
 			if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("on")) {
@@ -83,10 +84,10 @@ public class SlockCommand implements CommandExecutor {
 							}
 						}
 
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
+						sender.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
 
 					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
+						sender.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
 					}
 
 				} else if (args[0].equalsIgnoreCase("off")) {
@@ -94,167 +95,16 @@ public class SlockCommand implements CommandExecutor {
 					if (Slock.isLocked()) {
 						Slock.setLocked(false);
 
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
+						sender.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
 
 					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
+						sender.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
 					}
 				} else {
-					obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
+					sender.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
 				}
 			} else {
-				obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-			}
-		} else if (sender instanceof RemoteConsoleCommandSender) {
-
-			RemoteConsoleCommandSender obj = (RemoteConsoleCommandSender) sender;
-
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
-					if (!Slock.isLocked()) {
-						Slock.setLocked(true);
-
-						for (Player plr : Bukkit.getOnlinePlayers()) {
-							if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
-								plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
-							}
-						}
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
-					}
-
-				} else if (args[0].equalsIgnoreCase("off")) {
-
-					if (Slock.isLocked()) {
-						Slock.setLocked(false);
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
-					}
-				} else {
-					obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-				}
-			} else {
-				obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-			}
-
-		} else if (sender instanceof BlockCommandSender) {
-
-			BlockCommandSender obj = (BlockCommandSender) sender;
-
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
-					if (!Slock.isLocked()) {
-						Slock.setLocked(true);
-
-						for (Player plr : Bukkit.getOnlinePlayers()) {
-							if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
-								plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
-							}
-						}
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
-					}
-
-				} else if (args[0].equalsIgnoreCase("off")) {
-
-					if (Slock.isLocked()) {
-						Slock.setLocked(false);
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
-					}
-				} else {
-					obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-				}
-			} else {
-				obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-			}
-
-		} else if (sender instanceof CommandMinecart) {
-
-			CommandMinecart obj = (CommandMinecart) sender;
-
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
-					if (!Slock.isLocked()) {
-						Slock.setLocked(true);
-
-						for (Player plr : Bukkit.getOnlinePlayers()) {
-							if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
-								plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
-							}
-						}
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
-					}
-
-				} else if (args[0].equalsIgnoreCase("off")) {
-
-					if (Slock.isLocked()) {
-						Slock.setLocked(false);
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
-					}
-				} else {
-					obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-				}
-			} else {
-				obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-			}
-
-		} else if (sender instanceof ProxiedCommandSender) {
-
-			ProxiedCommandSender obj = (ProxiedCommandSender) sender;
-
-			if (args.length == 1) {
-				if (args[0].equalsIgnoreCase("on")) {
-					if (!Slock.isLocked()) {
-						Slock.setLocked(true);
-
-						for (Player plr : Bukkit.getOnlinePlayers()) {
-							if (!(plr.hasPermission("slock.bypass") && plr.hasPermission("slock.*"))) {
-								plr.kickPlayer(MessageManager.getMessage("Messages.Kick"));
-							}
-						}
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOn"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOn"));
-					}
-
-				} else if (args[0].equalsIgnoreCase("off")) {
-
-					if (Slock.isLocked()) {
-						Slock.setLocked(false);
-
-						obj.sendMessage(MessageManager.getMessage("Messages.SlockOff"));
-
-					} else {
-						obj.sendMessage(MessageManager.getMessage("Messages.Errors.SlockAlreadyOff"));
-					}
-				} else {
-					obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
-				}
-			} else {
-				obj.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
+				sender.sendMessage(MessageManager.getMessage("Messages.Errors.FalseArguments"));
 			}
 
 		} else {

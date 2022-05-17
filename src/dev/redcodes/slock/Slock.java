@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.redcodes.slock.data.ConfigCreator;
 import dev.redcodes.slock.data.FileConfig;
+import dev.redcodes.slock.data.stats.Metrics;
 import dev.redcodes.slock.serverlock.commands.SlockCommand;
 import dev.redcodes.slock.serverlock.listener.PlayerInventoryListener;
 import dev.redcodes.slock.serverlock.listener.PlayerJoinListener;
@@ -15,6 +16,7 @@ public class Slock extends JavaPlugin {
 	private static Slock plugin;
 	private static String prefix;
 
+	@Override
 	public void onEnable() {
 
 		plugin = this;
@@ -28,31 +30,44 @@ public class Slock extends JavaPlugin {
 		FileConfig config = new FileConfig("Slock", "config.yml");
 
 		if (!config.getBoolean("enabled")) {
-			Bukkit.getConsoleSender().sendMessage(prefix + "§cSlock was disabled by the config.");
+			Bukkit.getConsoleSender().sendMessage(prefix + "§cSLock was disabled by the config.");
 			this.setEnabled(false);
 			return;
 		}
-		
-		//Version checking
-		//TODO: Rewrite Version checking
 
-//		String version = Bukkit.getVersion().substring(Bukkit.getVersion().lastIndexOf(":") + 1).replace(")", "")
-//				.trim();
-//		String majorVersion = version.substring(0, version.lastIndexOf(".")).trim();
-//		int majorVersionNum = Integer.valueOf(majorVersion.replace("1.", ""));
-//		
-//		System.out.println(version);
-//		System.out.println(majorVersion);
-//		System.out.println(majorVersionNum);
-//		
-//		if(majorVersionNum < 13) {
-//			Bukkit.getConsoleSender().sendMessage(prefix + "§cSlock was disabled because the Minecraft Version \"" + version + "\" is not supported.");
-//			this.setEnabled(false);
-//			return;
-//		}
+		// Setup bstats
+		int bstatsId = 15222;
+		new Metrics(plugin, bstatsId);
+
+		// Version checking
+
+		String[] allowedVersions = new String[] {
+			"1.13",
+			"1.14",
+			"1.15",
+			"1.16",
+			"1.17",
+			"1.18"
+		};
+		
+		String versionString = Bukkit.getVersion();
+		
+		boolean allowed = false;
+		
+		for(String version : allowedVersions) {
+			if(versionString.contains(version)) {
+				allowed = true;
+			}
+		}
+		
+		if(!allowed) {
+			Bukkit.getConsoleSender().sendMessage(prefix + "§cThe Minecraft Version of this Server is not supported. SLock has been disabled.");
+			Bukkit.getConsoleSender().sendMessage(prefix + "§bPlease check if there is another Version available on the SLock Spigot page: https://www.spigotmc.org/resources/slock-1-8-1-12-2-the-simplest-minecraft-server-locker.92670/");
+			this.setEnabled(false);
+			return;
+		}
 
 		getCommand("slock").setExecutor(new SlockCommand());
-		
 
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerJoinListener(), this);
@@ -63,6 +78,7 @@ public class Slock extends JavaPlugin {
 
 	}
 
+	@Override
 	public void onDisable() {
 
 		Bukkit.getConsoleSender().sendMessage(prefix + "§cSlock was disabled successfully");
