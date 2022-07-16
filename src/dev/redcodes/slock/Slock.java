@@ -47,7 +47,8 @@ public class Slock extends JavaPlugin {
 			"1.15",
 			"1.16",
 			"1.17",
-			"1.18"
+			"1.18",
+			"1.19"
 		};
 		
 		String versionString = Bukkit.getVersion();
@@ -62,7 +63,7 @@ public class Slock extends JavaPlugin {
 		
 		if(!allowed) {
 			Bukkit.getConsoleSender().sendMessage(prefix + "§cThe Minecraft Version of this Server is not supported. SLock has been disabled.");
-			Bukkit.getConsoleSender().sendMessage(prefix + "§bPlease check if there is another Version available on the SLock Spigot page: https://www.spigotmc.org/resources/slock-1-8-1-12-2-the-simplest-minecraft-server-locker.92670/");
+			Bukkit.getConsoleSender().sendMessage(prefix + "§bPlease check if there is another Version available on the SLock Spigot page: https://www.spigotmc.org/resources/slock-1-13-1-18-the-simplest-minecraft-server-locker.68672/");
 			this.setEnabled(false);
 			return;
 		}
