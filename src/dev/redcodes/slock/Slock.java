@@ -16,6 +16,8 @@ public class Slock extends JavaPlugin {
 	private static Slock plugin;
 	private static String prefix;
 
+	private static Metrics metrics;
+
 	@Override
 	public void onEnable() {
 
@@ -37,7 +39,7 @@ public class Slock extends JavaPlugin {
 
 		// Setup bstats
 		int bstatsId = 15222;
-		new Metrics(plugin, bstatsId);
+		metrics = new Metrics(plugin, bstatsId);
 
 		// Version checking
 
@@ -48,7 +50,8 @@ public class Slock extends JavaPlugin {
 			"1.16",
 			"1.17",
 			"1.18",
-			"1.19"
+			"1.19",
+			"1.20",
 		};
 		
 		String versionString = Bukkit.getVersion();
@@ -102,6 +105,8 @@ public class Slock extends JavaPlugin {
 
 	public static void setLocked(boolean lock) {
 		FileConfig config = new FileConfig("Slock", "config.yml");
+
+		metrics.addCustomChart(new Metrics.SimplePie("server_locked", () -> String.valueOf(lock)));
 
 		config.set("locked", lock);
 		config.saveConfig();
